@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Repository;
 
-use Modules\Interfaces;
+use Modules\Repositories\Interfaces;
 
 public class MariaDbTransactionRepository implements ITransactionRepository {
 
