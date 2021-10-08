@@ -1,11 +1,21 @@
 <?php
-namespace Modules\Entity;
+
+namespace Modules\Entities;
 
 use \Date;
 use Modules\Transaction;
 
 class User {
-    public Long $id;
+
+	function __construct() {
+		
+	}
+
+	function __destruct() {
+
+	}
+
+    public int $id;
     public string $email;
     public string $username;
     public string $passwdhash;

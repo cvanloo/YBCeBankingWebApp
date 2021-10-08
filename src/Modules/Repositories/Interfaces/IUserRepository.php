@@ -1,12 +1,13 @@
 <?php
-namespace Modules\Interfaces;
 
-use Modules\Repositories\Entity;
+namespace Modules\Repositories\Interfaces;
+
+use Modules\Entities\User;
 
 /**
  * Repository pattern interface for the User entity.
  */
-public interface IUserRepository {
+interface IUserRepository {
 
     /**
      * Get a user based on its id.
@@ -14,7 +15,7 @@ public interface IUserRepository {
      * @param Long $id Id of the user.
      * @return User The found user or NULL.
      */
-    public function getUserById(Long $id) : User;
+    public function getUserById(int $id) : User;
 
     /**
      * Get all users.
@@ -45,7 +46,7 @@ public interface IUserRepository {
      * @param Long $id The id of the user to delete.
      * @return bool True on success.
      */
-    public function deleteUser(Long $id) : bool;
+    public function deleteUser(int $id) : bool;
 }
 
 ?>

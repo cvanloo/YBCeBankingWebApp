@@ -1,11 +1,12 @@
 <?php
-namespace Modules\Entity;
+
+namespace Modules\Entites;
 
 use DateTime;
-use Modules\Entity\User;
+use Modules\Entities\User;
 
 class Transaction {
-    public Long $id;
+    public int $id;
     public DateTime $created;
     public string $title;
     public string $description;

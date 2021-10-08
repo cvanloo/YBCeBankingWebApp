@@ -1,26 +1,27 @@
 <?php
+
 namespace Modules\Repositories\Interfaces;
 
-use Modules\Entity;
+use Modules\Entities\Transaction;
 
 /**
  * Repository pattern interface for the Transaction entity.
  */
-public interface ITransactionRepository {
+interface ITransactionRepository {
     /**
      * Get a transaction based on its id.
      * 
      * @param Long $id Id of the transaction.
      * @return Transaction The found transaction or NULL.
      */
-    public function getTransactionById(Long $id) : Transaction;
+    public function getTransactionById(int $id) : Transaction;
 
     /**
      * Get all transactions.
      * 
      * @return Transaction[] An arary of transactions.
      */
-    public function getTransactions() : array
+    public function getTransactions() : array;
 
     /**
      * Create a new transaction
@@ -44,7 +45,7 @@ public interface ITransactionRepository {
      * @param Long $id The id of the transaction to delete.
      * @return bool True on success.
      */
-    public function deleteTransaction(Long $id) : bool;
+    public function deleteTransaction(int $id) : bool;
 }
 
 ?>
