@@ -4,9 +4,9 @@ namespace Modules\Entity;
 use DateTime;
 use Modules\Entity\User;
 
-public class Transaction {
+class Transaction {
     public Long $id;
-    public DateTime $timestamp;
+    public DateTime $created;
     public string $title;
     public string $description;
     public User $obligee;
@@ -14,7 +14,7 @@ public class Transaction {
     public TransactionState $status;
 }
 
-public abstract class TransactionState {
+abstract class TransactionState {
     public const Pending = 0;
     public const Completed = 1;
     public const Cancelled = 2;
