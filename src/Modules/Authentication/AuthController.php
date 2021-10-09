@@ -1,6 +1,8 @@
 <?php
 namespace Modules\Authentication;
 
+require_once PHP_MODULES.'Entities/User.php';
+
 use Modules\Entity\User;
 
 public static class AuthController {

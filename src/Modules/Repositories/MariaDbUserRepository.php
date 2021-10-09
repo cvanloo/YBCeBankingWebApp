@@ -2,7 +2,7 @@
 
 namespace Modules\Repositories;
 
-require_once "/home/miya/code/PHP/YBCeBankingWebApp/src/config/config.php";
+require_once PHP_MODULES.'Repositories/PDOConnectionBase.php';
 require_once PHP_MODULES.'Repositories/Interfaces/IUserRepository.php';
 require_once PHP_MODULES.'Entities/User.php';
 
@@ -13,24 +13,13 @@ use Modules\Entities\User;
 use PDO;
 use PDOException;
 
-class MariaDbUserRepository implements IUserRepository {
+class MariaDbUserRepository
+	extends PDOConnectionBase
+	implements IUserRepository
+{
 
-	private static function getConnection() : PDO {
-		try {
-			$conn = new PDO(DB_CONNECTION, DB_USER, DB_PASSWD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch (PDOException $pdoEx) {
-			echo $pdoEx;
-			die("Failed to connect to the database, see error above.");
-		}
-
-		return $conn;
-	}
-
-	public function getUserById(int $id) : User {
+	public function getUserById(int $id) : ?User {
 		$conn = $this::getConnection();
-
-		//$conn->beginTransaction();
 
 		$statement = "SELECT * FROM users WHERE id = ?";
 		$stmt = $conn->prepare($statement);
@@ -38,19 +27,66 @@ class MariaDbUserRepository implements IUserRepository {
 		try {
 			$stmt->execute([$id]);
 		} catch (PDOException $pdoEx) {
-			//$conn->rollBack();
 			return null;
 		}
 
-		//$conn->commit();
 		$user_sql = $stmt->fetch();
-		var_dump($user_sql);
-		return null;
+
+		$user = null;
+		if (false !== $user_sql) {
+			$user = User::create()->constructFromSql($user_sql);
+		}
+
+		return $user;
 	}
 
-    public function getUsers() : array {}
-    public function createUser(User $user) : User {}
-    public function updateUser(User $user) : User {}
+	public function getUsers() : array {
+		$conn = $this::getConnection();
+
+		$statement = "SELECT * FROM users";
+		$stmt = $conn->prepare($statement);
+
+		try {
+			$stmt->execute();
+		} catch (PDOException $pdoEx) {
+			return array();
+		}
+
+		$users = array();
+		foreach ($users as $user_sql) {
+			$users[] = User::create()->constructFromSql($user_sql);
+		}
+
+		return $users;
+	}
+
+	public function createUser(User $user) : ?User {
+		$conn = $this::getConnection();
+
+		$statement =
+			"INSERT INTO users (email, username, passwdhash, accountbalance)
+			VALUES (:email, :username, :passwdhash, :accountbalance)";
+
+		$data = [
+			'email' => $user->email,
+			'username' => $user->username,
+			'passwdhash' => $user->passwdhash,
+			'accountbalance' => $user->accountbalance,
+		];
+
+		$stmt = $conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		} catch (PDOException $pdoEx) {
+			return null;
+		}
+
+		return $this->getUserById($conn->lastInsertId());
+	}
+
+    public function updateUser(User $user) : ?User {}
+
     public function deleteUser(int $id) : bool {}
 }
 

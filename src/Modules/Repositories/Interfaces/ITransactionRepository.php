@@ -2,6 +2,8 @@
 
 namespace Modules\Repositories\Interfaces;
 
+require_once PHP_MODULES.'Entities/Transaction.php';
+
 use Modules\Entities\Transaction;
 
 /**
@@ -14,7 +16,7 @@ interface ITransactionRepository {
      * @param Long $id Id of the transaction.
      * @return Transaction The found transaction or NULL.
      */
-    public function getTransactionById(int $id) : Transaction;
+    public function getTransactionById(int $id) : ?Transaction;
 
     /**
      * Get all transactions.
@@ -29,7 +31,7 @@ interface ITransactionRepository {
      * @param Transaction $transaction The transaction to create.
      * @return Transaction The created transaction or NULL.
      */
-    public function createTransaction(Transaction $transaction) : Transaction;
+    public function createTransaction(Transaction $transaction) : ?Transaction;
 
     /**
      * Modify a transaction
@@ -37,7 +39,7 @@ interface ITransactionRepository {
      * @param Transaction $transaction The modified transaction.
      * @return Transaction The modified transaction or NULL.
      */
-    public function updateTransaction(Transaction $transaction) : Transaction;
+    public function updateTransaction(Transaction $transaction) : ?Transaction;
 
     /**
      * Delete a transaction

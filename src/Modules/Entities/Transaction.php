@@ -2,12 +2,13 @@
 
 namespace Modules\Entites;
 
-use DateTime;
+require_once PHP_MODULES.'Entities/User.php';
+
 use Modules\Entities\User;
 
 class Transaction {
     public int $id;
-    public DateTime $created;
+    public string $created;
     public string $title;
     public string $description;
     public User $obligee;

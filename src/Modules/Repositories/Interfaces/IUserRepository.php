@@ -15,7 +15,7 @@ interface IUserRepository {
      * @param Long $id Id of the user.
      * @return User The found user or NULL.
      */
-    public function getUserById(int $id) : User;
+    public function getUserById(int $id) : ?User;
 
     /**
      * Get all users.
@@ -30,7 +30,7 @@ interface IUserRepository {
      * @param User $user The user to create.
      * @return User The created user or NULL.
      */
-    public function createUser(User $user) : User;
+    public function createUser(User $user) : ?User;
 
     /**
      * Modify a user.
@@ -38,7 +38,7 @@ interface IUserRepository {
      * @param User $user The modified user.
      * @return User The modified user or NULL.
      */
-    public function updateUser(User $user) : User;
+    public function updateUser(User $user) : ?User;
 
     /**
      * Delete a user.
