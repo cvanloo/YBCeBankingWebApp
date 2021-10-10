@@ -66,13 +66,13 @@ class User {
 
 	public function __destruct() { }
 
-    public int $id;
-    public string $email;
-    public string $username;
-    public string $passwdhash;
-    public int $accountbalance;
+	public int $id;
+	public string $email;
+	public string $username;
+	public string $passwdhash;
+	public int $accountbalance;
 	public string $created;
-    public bool $deleted;
+	public bool $deleted;
 	public array $transactions; // Transaction[]
 }
 

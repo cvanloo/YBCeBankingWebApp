@@ -85,9 +85,51 @@ class MariaDbUserRepository
 		return $this->getUserById($conn->lastInsertId());
 	}
 
-    public function updateUser(User $user) : ?User {}
+	public function updateUser(User $user) : ?User {
+		$conn = $this::getConnection();
 
-    public function deleteUser(int $id) : bool {}
+		$statement =
+			"UPDATE users
+			SET email = :email, username = :username, passwdhash = :passwdhash,
+			accountbalance = :accountbalance, deleted = :deleted
+			WHERE id = :id";
+
+		$data = [
+			'email' => $user->email,
+			'username' => $user->username,
+			'passwdhash' => $user->passwdhash,
+			'accountbalance' => $user->accountbalance,
+			'deleted' => $user->deleted,
+		];
+
+		$stmt = $conn->prepare($statement);
+
+		try {
+			$stmt->execute($data);
+		} catch (PDOException $pdoEx) {
+			return null;
+		}
+
+		return $this->getUserById($conn->lastInsertId());
+	}
+
+	public function deleteUser(int $id) : bool {
+		$conn = $this::getConnection();
+
+		$statement =
+			"DELETE FROM users
+			WHERE id = :id";
+
+		$stmt = $conn->prepare($statement);
+
+		try {
+			$stmt->execute([$id]);
+		} catch (PDOException $pdoEx) {
+			return false;
+		}
+
+		return true;
+	}
 }
 
 ?>

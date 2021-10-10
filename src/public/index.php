@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<?php
-			require_once "/home/miya/Edu/01_TBZ/Informatikmodule/M306/04_Projekt/YBCeBankingWebApp/src/config/config.php";
+			require_once getenv('YBC_ROOT')."/src/config/config.php";
 			require_once PHP_MODULES."Repositories/MariaDbUserRepository.php";
 			require_once PHP_MODULES."Repositories/Interfaces/IUserRepository.php";
 			require_once PHP_MODULES."Entities/User.php";
@@ -18,7 +18,10 @@
 			$user = User::create()->setEmail('test10@test.ch')->setUsername('test10')->setPasswdhash('apwhash10')->setAccountbalance(0);
 
 			$created_user = $repo->createUser($user);
-			var_dump($created_user);
 		?>
+		<pre>
+			<?php var_dump($created_user); ?>
+		</pre>
+		<?php ?>
 	</body>
 </head>

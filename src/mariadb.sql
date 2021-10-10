@@ -21,6 +21,7 @@ CREATE TABLE users (
 
 CREATE TABLE transactions (
 	id int PRIMARY KEY AUTO_INCREMENT,
+	amount int NOT NULL,
 	created DATETIME NOT NULL DEFAULT CURDATE(),
 	title varchar(255) NOT NULL,
 	description varchar(512),
