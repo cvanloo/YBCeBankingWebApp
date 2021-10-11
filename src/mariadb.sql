@@ -11,7 +11,7 @@ CREATE TABLE users (
 	email varchar(255) NOT NULL,
 	username varchar(255) NOT NULL,
 	passwdhash varchar(255) NOT NULL,
-	accountbalance int NOT NULL DEFAULT 0,
+	accountbalance float NOT NULL DEFAULT 0,
 	created DATE NOT NULL DEFAULT CURDATE(),
 	deleted tinyint(1) NOT NULL DEFAULT 0,
 
@@ -21,13 +21,14 @@ CREATE TABLE users (
 
 CREATE TABLE transactions (
 	id int PRIMARY KEY AUTO_INCREMENT,
-	amount int NOT NULL,
+	amount float NOT NULL,
 	created DATETIME NOT NULL DEFAULT CURDATE(),
 	title varchar(255) NOT NULL,
 	description varchar(512),
 	obligee_id int NOT NULL,
 	debtor_id int NOT NULL,
-	status ENUM('pending', 'completed', 'cancelled') NOT NULL DEFAULT 'pending',
+	-- status ENUM('pending', 'completed', 'cancelled') NOT NULL DEFAULT 'pending',
+	status int NOT NULL DEFAULT 0,
 
 	FOREIGN KEY (obligee_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (debtor_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE

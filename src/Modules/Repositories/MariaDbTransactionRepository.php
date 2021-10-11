@@ -4,21 +4,22 @@ namespace Modules\Repositories;
 require_once PHP_MODULES.'Repositories/PDOConnectionBase.php';
 require_once PHP_MODULES.'Repositories/Interfaces/ITransactionRepository.php';
 require_once PHP_MODULES.'Entities/Transaction.php';
+require_once PHP_MODULES.'Entities/User.php';
 
 use config\config;
-use Modules\Repositories\Interfaces\IUserRepository;
+
 use Modules\Entities\User;
+
+use Modules\Repositories\Interfaces\ITransactionRepository;
+use Modules\Entities\Transaction;
 
 use PDO;
 use PDOException;
 
-use Modules\Repositories\Interfaces\ITransactionRepository;
-use Modules\Entites\Transaction;
-
-class MariaDbTransactionRepository
-	extends PDOConnectionBase
-	implements ITransactionRepository
+class MariaDbTransactionRepository implements ITransactionRepository
 {
+
+    use PDOConnectionBase;
 
     public function getTransactionById(int $id) : ?Transaction {
         $conn = $this::getConnection();
@@ -37,7 +38,7 @@ class MariaDbTransactionRepository
 
         $transaction = null;
         if (false !== $transaction_sql) {
-            $transaction = Transaction()::create()->constructFromSql($transaction_sql);
+            $transaction = Transaction::create()->constructFromSql($transaction_sql);
         }
 
         return $transaction;
@@ -56,7 +57,7 @@ class MariaDbTransactionRepository
             return array();
         }
 
-        $transactions_sql = $stmt->fetch();
+        $transactions_sql = $stmt->fetchAll();
 
         $transactions = array();
         foreach ($transactions_sql as $transaction_sql) {
@@ -70,17 +71,17 @@ class MariaDbTransactionRepository
         $conn = $this::getConnection();
 
         $statement = 
-            "INSERT INTO Transactions (amount, title, description, obligee, debtor, status)
-            VALUES (:amount, :title, :description, :obligee, :debtor, :status)";
+            "INSERT INTO Transactions (amount, title, description, obligee_id, debtor_id, status)
+            VALUES (:amount, :title, :description, :obligee_id, :debtor_id, :status)";
 
         $stmt = $conn->prepare($statement);
 
         $data = [
             'amount'      => $transaction->amount,
             'title'       => $transaction->title,
-            'description' => $transaction->description,
-            'obligee'     => $transaction->obligee,
-            'debtor'      => $transaction->debtor,
+            'description' => $transaction->description ?? '', // nullable
+            'obligee_id'  => $transaction->obligee_id,
+            'debtor_id'   => $transaction->debtor_id,
             'status'      => $transaction->status,
         ];
 
@@ -98,8 +99,8 @@ class MariaDbTransactionRepository
 
         $statement = 
             "UPDATE Transactions
-            SET amount = :amount, title = :title, description = :description, obligee = :obligee,
-            debtor = :debtor, status = :status
+            SET amount = :amount, title = :title, description = :description, obligee_id = :obligee_id,
+            debtor_id = :debtor_id, status = :status
             WHERE id = :id";
 
         $stmt = $conn->prepare($statement);
@@ -108,9 +109,10 @@ class MariaDbTransactionRepository
             'amount'      => $transaction->amount,
             'title'       => $transaction->title,
             'description' => $transaction->description,
-            'obligee'     => $transaction->obligee,
-            'debtor'      => $transaction->debtor,
+            'obligee_id'  => $transaction->obligee_id,
+            'debtor_id'   => $transaction->debtor_id,
             'status'      => $transaction->status,
+            'id'          => $transaction->id
         ];
 
         try {
@@ -119,15 +121,15 @@ class MariaDbTransactionRepository
             return null;
         }
 
-        return $this->getTransactionById($conn->lastInsertId());
+        return $this->getTransactionById($transaction->id);
     }
 
-    public function deleteTransaction(int $id) : bool {
+    public function deleteTransactionById(int $id) : bool {
         $conn = $this::getConnection();
 
         $statement =
             "DELETE FROM Transactions
-            WHERE id = :id";
+            WHERE id = ?";
 
         $stmt = $conn->prepare($statement);
 

@@ -5,7 +5,7 @@ namespace Modules\Repositories;
 use PDO;
 use PDOException;
 
-class PDOConnectionBase {
+trait PDOConnectionBase {
 
 	protected static function getConnection() : PDO {
 		try {

@@ -13,10 +13,10 @@ use Modules\Entities\User;
 use PDO;
 use PDOException;
 
-class MariaDbUserRepository
-	extends PDOConnectionBase
-	implements IUserRepository
+class MariaDbUserRepository implements IUserRepository
 {
+
+	use PDOConnectionBase;
 
 	public function getUserById(int $id) : ?User {
 		$conn = $this::getConnection();
@@ -54,7 +54,7 @@ class MariaDbUserRepository
 			return array();
 		}
 
-		$users_sql = $stmt->fetch();
+		$users_sql = $stmt->fetchAll();
 
 		$users = array();
 		foreach ($users_sql as $user_sql) {
@@ -103,7 +103,8 @@ class MariaDbUserRepository
 			'username'       => $user->username,
 			'passwdhash'     => $user->passwdhash,
 			'accountbalance' => $user->accountbalance,
-			'deleted'        => $user->deleted,
+			'deleted'        => (int) $user->deleted,
+			'id'             => $user->id
 		];
 
 		$stmt = $conn->prepare($statement);
@@ -114,15 +115,15 @@ class MariaDbUserRepository
 			return null;
 		}
 
-		return $this->getUserById($conn->lastInsertId());
+		return $this->getUserById($user->id);
 	}
 
-	public function deleteUser(int $id) : bool {
+	public function deleteUserById(int $id) : bool {
 		$conn = $this::getConnection();
 
 		$statement =
 			"DELETE FROM users
-			WHERE id = :id";
+			WHERE id = ?";
 
 		$stmt = $conn->prepare($statement);
 

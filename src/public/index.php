@@ -15,7 +15,7 @@
 
 			$repo = new MariaDbUserRepository();
 
-			$user = User::create()->setEmail('test10@test.ch')->setUsername('test10')->setPasswdhash('apwhash10')->setAccountbalance(0);
+			$user = User::create()->setEmail('test99@test.ch')->setUsername('test99')->setPasswdhash('apwhash99')->setAccountbalance(0);
 
 			$created_user = $repo->createUser($user);
 		?>

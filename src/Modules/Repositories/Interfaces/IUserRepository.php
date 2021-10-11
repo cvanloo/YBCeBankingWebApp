@@ -2,6 +2,8 @@
 
 namespace Modules\Repositories\Interfaces;
 
+require_once PHP_MODULES.'Entities/User.php';
+
 use Modules\Entities\User;
 
 /**
@@ -46,7 +48,7 @@ interface IUserRepository {
      * @param Long $id The id of the user to delete.
      * @return bool True on success.
      */
-    public function deleteUser(int $id) : bool;
+    public function deleteUserById(int $id) : bool;
 }
 
 ?>

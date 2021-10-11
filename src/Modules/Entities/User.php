@@ -17,7 +17,7 @@ class User {
 		$this->email = $sql['email'];
 		$this->username = $sql['username'];
 		$this->passwdhash = $sql['passwdhash'];
-		$this->accountbalance = (int) $sql['accountbalance'];
+		$this->accountbalance = (float) $sql['accountbalance'];
 		$this->created = $sql['created'];
 		$this->deleted = $sql['deleted'];
 
@@ -70,7 +70,7 @@ class User {
 	public string $email;
 	public string $username;
 	public string $passwdhash;
-	public int $accountbalance;
+	public float $accountbalance;
 	public string $created;
 	public bool $deleted;
 	public array $transactions; // Transaction[]

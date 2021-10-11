@@ -47,7 +47,7 @@ interface ITransactionRepository {
      * @param Long $id The id of the transaction to delete.
      * @return bool True on success.
      */
-    public function deleteTransaction(int $id) : bool;
+    public function deleteTransactionById(int $id) : bool;
 }
 
 ?>
