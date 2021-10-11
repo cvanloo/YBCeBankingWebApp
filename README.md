@@ -1,5 +1,18 @@
 # Module 306 YBC
 
+## Quickstart
+
+```shell
+git clone git@github.com:cvanloo/YBCeBankingWebApp.git YBCBanking
+cd YBCBanking
+composer install
+export YBC_ROOT="$(pwd)" # Linux, make sure there is no '/' at the end!
+$env:YBC_ROOT="$(pwd)"   # Windows, make sure there is no '/' or '\' at the end!
+cd src/public/
+php -S localhost:8000
+firefox localhost:8000   # launch firefox, opening the localhost webpage
+```
+
 ## Setup
 
 ### Dependencies
