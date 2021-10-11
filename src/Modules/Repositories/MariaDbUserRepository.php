@@ -22,6 +22,7 @@ class MariaDbUserRepository
 		$conn = $this::getConnection();
 
 		$statement = "SELECT * FROM users WHERE id = ?";
+		
 		$stmt = $conn->prepare($statement);
 
 		try {
@@ -44,6 +45,7 @@ class MariaDbUserRepository
 		$conn = $this::getConnection();
 
 		$statement = "SELECT * FROM users";
+
 		$stmt = $conn->prepare($statement);
 
 		try {
@@ -52,8 +54,10 @@ class MariaDbUserRepository
 			return array();
 		}
 
+		$users_sql = $stmt->fetch();
+
 		$users = array();
-		foreach ($users as $user_sql) {
+		foreach ($users_sql as $user_sql) {
 			$users[] = User::create()->constructFromSql($user_sql);
 		}
 
@@ -68,9 +72,9 @@ class MariaDbUserRepository
 			VALUES (:email, :username, :passwdhash, :accountbalance)";
 
 		$data = [
-			'email' => $user->email,
-			'username' => $user->username,
-			'passwdhash' => $user->passwdhash,
+			'email'          => $user->email,
+			'username'       => $user->username,
+			'passwdhash'     => $user->passwdhash,
 			'accountbalance' => $user->accountbalance,
 		];
 
@@ -95,11 +99,11 @@ class MariaDbUserRepository
 			WHERE id = :id";
 
 		$data = [
-			'email' => $user->email,
-			'username' => $user->username,
-			'passwdhash' => $user->passwdhash,
+			'email'          => $user->email,
+			'username'       => $user->username,
+			'passwdhash'     => $user->passwdhash,
 			'accountbalance' => $user->accountbalance,
-			'deleted' => $user->deleted,
+			'deleted'        => $user->deleted,
 		];
 
 		$stmt = $conn->prepare($statement);
