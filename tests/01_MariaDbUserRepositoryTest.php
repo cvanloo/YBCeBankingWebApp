@@ -14,7 +14,7 @@ final class MariaDbUserRepositoryTest extends TestCase {
 	
 	use PDOConnectionBase;
 
-	public $repo;
+	protected $repo;
 
 	// run once before class initialization
 	public static function setUpBeforeClass() : void {

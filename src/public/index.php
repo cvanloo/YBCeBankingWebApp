@@ -1,3 +1,20 @@
+<?php
+require_once getenv('YBC_ROOT')."/src/config/config.php";
+require_once PHP_MODULES."Repositories/MariaDbUserRepository.php";
+require_once PHP_MODULES."Repositories/MariaDbTransactionRepository.php";
+require_once PHP_MODULES."DataService.php";
+
+require_once PHP_MODULES."Entities/User.php";
+
+use Modules\Repositories\MariaDbUserRepository;
+use Modules\Repositories\MariaDbTransactionRepository;
+use Modules\DataService;
+
+use Modules\Entities\User;
+
+$GLOBALS['dataService'] = new DataService(new MariaDbUserRepository, new MariaDbTransactionRepository);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -6,16 +23,9 @@
 	</head>
 	<body>
 		<?php
-			require_once getenv('YBC_ROOT')."/src/config/config.php";
-			require_once PHP_MODULES."Repositories/MariaDbUserRepository.php";
-			require_once PHP_MODULES."Repositories/Interfaces/IUserRepository.php";
-			require_once PHP_MODULES."Entities/User.php";
-			use Modules\Repositories\MariaDbUserRepository;
-			use Modules\Entities\User;
+			$repo = $GLOBALS['dataService'];
 
-			$repo = new MariaDbUserRepository();
-
-			$user = User::create()->setEmail('test99@test.ch')->setUsername('test99')->setPasswdhash('apwhash99')->setAccountbalance(0);
+			$user = User::create()->setEmail('dataservice@test.ch')->setUsername('dataservice')->setPasswdhash('dataservice')->setAccountbalance(0);
 
 			$created_user = $repo->createUser($user);
 		?>

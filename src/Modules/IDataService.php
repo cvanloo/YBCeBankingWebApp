@@ -1,7 +1,13 @@
 <?php
 namespace Modules;
 
-public interface IDataService {
+require_once PHP_MODULES.'Entities/User.php';
+require_once PHP_MODULES.'Entities/Transaction.php';
+
+use Modules\Entities\User;
+use Modules\Entities\Transaction;
+
+interface IDataService {
 
     /**
      * Get a user based on its id.
@@ -9,7 +15,7 @@ public interface IDataService {
      * @param Long $id Id of the user.
      * @return User The found user or NULL.
      */
-    public function getUserById(Long $id) : User;
+    public function getUserById(int $id) : User;
 
     /**
      * Get all users.
@@ -55,7 +61,7 @@ public interface IDataService {
      * 
      * @return Transaction[] An arary of transactions.
      */
-    public function getTransactions() : array
+    public function getTransactions() : array;
 
     /**
      * Create a new transaction

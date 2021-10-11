@@ -16,7 +16,7 @@ use Modules\Entities\TransactionState;
 final class MariaDbTransactionRepositoryTest extends TestCase {
 	
 	use PDOConnectionBase;
-	public $repo;
+	protected $repo;
 
 	// run once before class initialization
 	public static function setUpBeforeClass() : void {
