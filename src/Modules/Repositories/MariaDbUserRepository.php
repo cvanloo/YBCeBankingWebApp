@@ -64,6 +64,49 @@ class MariaDbUserRepository implements IUserRepository
 		return $users;
 	}
 
+	public function findUsersWithFilter(array $filter_list) : array {
+		$conn = $this::getConnection();
+
+		$statement = "SELECT * FROM Users";
+
+		if (count($filter_list) !== 0) {
+			$statement .= " WHERE ";
+
+			$iteration = 0;
+			foreach ($filter_list as $key => $value) {
+				if ($iteration !== 0) {
+					$statement .= "AND ";
+				}
+
+				// FIXME: Dirty hack
+				if (is_float($value)) {
+					$statement .= "{$key} = CAST(:{$key} AS FLOAT)";
+				} else {
+					$statement .= "{$key} = :{$key} ";
+				}
+
+				$iteration++;
+			}
+		}
+
+		$stmt = $conn->prepare($statement);
+
+		try {
+			$stmt->execute($filter_list);
+		} catch (PDOException $pdoEx) {
+			return array();
+		}
+
+		$transactions_sql = $stmt->fetchAll();
+
+		$transactions = array();
+		foreach ($transactions_sql as $transaction_sql) {
+			$transactions[] = User::create()->constructFromSql($transaction_sql);
+		}
+
+		return $transactions;
+	}
+
 	public function createUser(User $user) : ?User {
 		$conn = $this::getConnection();
 
@@ -83,6 +126,7 @@ class MariaDbUserRepository implements IUserRepository
 		try {
 			$stmt->execute($data);
 		} catch (PDOException $pdoEx) {
+			echo $pdoEx;
 			return null;
 		}
 

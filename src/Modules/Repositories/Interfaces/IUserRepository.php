@@ -27,6 +27,14 @@ interface IUserRepository {
     public function getUsers() : array;
 
     /**
+     * Get users that match a certain criteria.
+     * 
+     * @param array $filter_list A key-value pair of properties and their values.
+     * @return User[] An array of users.
+     */
+    public function findUsersWithFilter(array $filter_list) : array;
+
+    /**
      * Create a new user.
      * 
      * @param User $user The user to create.

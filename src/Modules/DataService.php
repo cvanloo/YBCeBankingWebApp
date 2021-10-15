@@ -13,7 +13,12 @@ use Modules\Repositories\Interfaces\ITransactionRepository;
 use Modules\Entities\User;
 use Modules\Entities\Transaction;
 
+/**
+ * Wrapper around the repository interface to make replacing the
+ * data providers easier.
+ */
 class DataService implements IDataService {
+
 	private IUserRepository $_userRepository;
 	private ITransactionRepository $_transactionRepository;
 
@@ -22,7 +27,7 @@ class DataService implements IDataService {
 		$this->_transactionRepository = $transactionRepository;
 	}
 
-    public function getUserById(int $id) : User {
+    public function getUserById(int $id) : ?User {
 		return $this->_userRepository->getUserById($id);
 	}
 
@@ -30,19 +35,23 @@ class DataService implements IDataService {
 		return $this->_userRepository->getUsers();
 	}
 
-    public function createUser(User $user) : User {
+	public function findUsersWithFilter(array $filter_list) : array {
+		return $this->_userRepository->findUsersWithFilter($filter_list);
+	}
+
+    public function createUser(User $user) : ?User {
 		return $this->_userRepository->createUser($user);
 	}
 
-    public function updateUser(User $user) : User {
+    public function updateUser(User $user) : ?User {
 		return $this->_userRepository->updateUser($user);
 	}
 
-    public function deleteUser(Long $id) : bool {
-		return $this->_userRepository->deleteUser($id);
+    public function deleteUserById(int $id) : bool {
+		return $this->_userRepository->deleteUserById($id);
 	}
 
-    public function getTransactionById(Long $id) : Transaction {
+    public function getTransactionById(int $id) : ?Transaction {
 		return $this->_transactionRepository->getTransactionById($id);
 	}
 
@@ -50,16 +59,20 @@ class DataService implements IDataService {
 		return $this->_transactionRepository->getTransactions();
 	}
 
-    public function createTransaction(Transaction $transaction) : Transaction {
+	public function findTransactionsWithFilter(array $filter_list) : array {
+		return $this->_transactionRepository->findTransactionsWithFilter($filter_list);
+	}
+
+    public function createTransaction(Transaction $transaction) : ?Transaction {
 		return $this->_transactionRepository->createTransaction($transaction);
 	}
 
-    public function updateTransaction(Transaction $transaction) : Transaction {
+    public function updateTransaction(Transaction $transaction) : ?Transaction {
 		return $this->_transactionRepository->updateTransaction($transaction);
 	}
 
-    public function deleteTransaction(Long $id) : bool {
-		return $this->_transactionRepository->deleteTransaction($transaction);
+    public function deleteTransactionById(int $id) : bool {
+		return $this->_transactionRepository->deleteTransactionById($id);
 	}
 }
 

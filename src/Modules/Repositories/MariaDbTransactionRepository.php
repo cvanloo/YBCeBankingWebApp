@@ -67,6 +67,49 @@ class MariaDbTransactionRepository implements ITransactionRepository
         return $transactions;
     }
 
+    public function findTransactionsWithFilter(array $filter_list) : array {
+        $conn = $this::getConnection();
+
+        $statement = "SELECT * FROM Transactions";
+
+        if (count($filter_list) !== 0) {
+            $statement .= " WHERE ";
+
+            $iteration = 0;
+            foreach ($filter_list as $key => $value) {
+                if ($iteration !== 0) {
+                    $statement .= "AND ";
+                }
+
+                // FIXME: Dirty hack
+				if (is_float($value)) {
+					$statement .= "{$key} = CAST(:{$key} AS FLOAT)";
+				} else {
+					$statement .= "{$key} = :{$key} ";
+				}
+
+                $iteration++;
+            }
+        }
+        
+        $stmt = $conn->prepare($statement);
+
+        try {
+            $stmt->execute($filter_list);
+        } catch (PDOException $pdoEx) {
+            return array();
+        }
+
+        $transactions_sql = $stmt->fetchAll();
+
+        $transactions = array();
+        foreach ($transactions_sql as $transaction_sql) {
+            $transactions[] = Transaction::create()->constructFromSql($transaction_sql);
+        }
+
+        return $transactions;
+    }
+
     public function createTransaction(Transaction $transaction) : ?Transaction {
         $conn = $this::getConnection();
 

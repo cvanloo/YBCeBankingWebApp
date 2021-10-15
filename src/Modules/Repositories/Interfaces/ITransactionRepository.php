@@ -26,6 +26,14 @@ interface ITransactionRepository {
     public function getTransactions() : array;
 
     /**
+     * Get transactions that match a certain criteria.
+     * 
+     * @param array $filter_list A key-value pair of properties and their values.
+     * @return Transaction[] An array of transactions.
+     */
+    public function findTransactionsWithFilter(array $filter_list) : array;
+
+    /**
      * Create a new transaction
      * 
      * @param Transaction $transaction The transaction to create.
