@@ -19,10 +19,13 @@ use Modules\Repositories\MariaDbTransactionRepository;
 use Modules\Repositories\MariaDbUserRepository;
 
 use Modules\Entities\User;
+use Modules\Entities\Transaction;
+use Modules\Entities\TransactionState;
 
 final class DataServiceUserTest extends TestCase {
 	
 	protected IDataService $repo;
+	private array $transactions;
 
 	// run once before class initialization
 	public static function setUpBeforeClass() : void {
@@ -36,7 +39,20 @@ final class DataServiceUserTest extends TestCase {
 
 	// run once after class initialization
 	public function setUp() : void {
-	
+		global $repo;
+		global $transactions;
+
+		$ticks = microtime();
+
+		for ($i = 0; $i < 5; $i++) {
+			$transactions[] = Transaction::create()
+				->setAmount(140)
+				->setTitle("Test Transaction_{$ticks}")
+				->setDescription('Test Description')
+				//->setObligeeId($obligee_id)
+				//->setDebtorId($debtor_id)
+				->setStatus(TransactionState::Completed);
+		}
 	}
 	
 	private function propertiesAreEqual($expected, $actual) : void {

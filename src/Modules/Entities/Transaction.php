@@ -96,9 +96,9 @@ class Transaction {
 	public string $title;
 	public string $description;
 	public int $obligee_id;
-	public User $obligee;
+	//public User $obligee;
 	public int $debtor_id;
-	public User $debtor;
+	//public User $debtor;
 	public int $status;
 }
 

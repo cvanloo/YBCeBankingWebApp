@@ -73,7 +73,9 @@ class User {
 	public float $accountbalance;
 	public string $created;
 	public bool $deleted;
-	public array $transactions; // Transaction[]
+	//public array $transactions; // Transaction[]
+	public array $earnings;  // Transaction[]
+	public array $spendings; // Transaction[]
 }
 
 ?>

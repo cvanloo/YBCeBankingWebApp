@@ -25,6 +25,11 @@ class MariaDbTransactionRepository implements ITransactionRepository
         $conn = $this::getConnection();
 
         $statement = "SELECT * FROM Transactions WHERE id = ?";
+        // TODO: Inculde transactions in user; maybe with the help of INNER JOINS?
+        //       _outside_ of the repository in a separate controller would
+        //       probably be a better idea.
+        // SELECT * FROM users INNER JOIN transactions ON users.id =
+        // transactions.obligee_id WHERE users.id = 1262;
 
         $stmt = $conn->prepare($statement);
 
