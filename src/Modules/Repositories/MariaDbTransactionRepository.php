@@ -183,7 +183,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
 
         try {
             $stmt->execute([$id]);
-        } catch (PDOException) {
+        } catch (PDOException $pdoEx) {
             return false;
         }
 
