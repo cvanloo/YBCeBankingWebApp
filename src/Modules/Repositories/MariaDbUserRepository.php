@@ -67,7 +67,7 @@ class MariaDbUserRepository implements IUserRepository
 	public function findUsersWithFilter(array $filter_list) : array {
 		$conn = $this::getConnection();
 
-		$statement = "SELECT * FROM Users";
+		$statement = "SELECT * FROM users";
 
 		if (count($filter_list) !== 0) {
 			$statement .= " WHERE ";
@@ -126,7 +126,6 @@ class MariaDbUserRepository implements IUserRepository
 		try {
 			$stmt->execute($data);
 		} catch (PDOException $pdoEx) {
-			echo $pdoEx;
 			return null;
 		}
 

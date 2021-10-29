@@ -1,37 +1,39 @@
 <?php
 require_once getenv('YBC_ROOT')."/src/config/config.php";
+require_once PHP_MODULES."Session.php";
+
 require_once PHP_MODULES."Repositories/MariaDbUserRepository.php";
 require_once PHP_MODULES."Repositories/MariaDbTransactionRepository.php";
 require_once PHP_MODULES."DataService.php";
-
 require_once PHP_MODULES."Entities/User.php";
+require_once PHP_MODULES."Entities/Transaction.php";
 
 use Modules\Repositories\MariaDbUserRepository;
 use Modules\Repositories\MariaDbTransactionRepository;
 use Modules\DataService;
-
 use Modules\Entities\User;
+use Modules\Entities\Transaction;
 
 $GLOBALS['dataService'] = new DataService(new MariaDbUserRepository, new MariaDbTransactionRepository);
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Test</title>
-	</head>
-	<body>
-		<?php
-			$repo = $GLOBALS['dataService'];
+<!-- TODO: Include css? -->
 
-			$user = User::create()->setEmail('dataservice@test.ch')->setUsername('dataservice')->setPasswdhash('dataservice')->setAccountbalance(0);
+<!-- Include current page -->
 
-			$created_user = $repo->createUser($user);
-		?>
-		<pre>
-			<?php var_dump($created_user); ?>
-		</pre>
-		<?php ?>
-	</body>
-</head>
+<?php
+
+$url = $_SERVER['REQUEST_URI'];
+
+if ($url === '/') {
+	$url = '/home';
+}
+
+$url = $url . '.html.php';
+
+include_once PHP_TEMPLATES . $url;
+
+?>
+
+<!-- TODO: Include footer -->

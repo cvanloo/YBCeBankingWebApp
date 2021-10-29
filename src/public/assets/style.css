@@ -1,0 +1,49 @@
+body {
+    margin:0;
+    padding:0;
+    font-family: Arial;
+}
+
+h1 {
+    text-align:center;
+    margin:auto;
+    margin-top:3vh;
+    margin-bottom: 4vh;
+}
+
+input {
+    text-align:center;
+    display: block;
+    margin : 0 auto;
+    width:33vw;
+    background-color:lightgrey;
+    border:none;
+    padding-top:1vh;
+    padding-bottom:1vh;
+    padding-left:0;
+    padding-right:0;
+    margin-bottom: 3vh;
+ }
+
+#buttons {
+    width:33vw;
+    margin:auto;
+    font-size: 60px;
+}
+
+button {
+    cursor:pointer;
+}
+
+#errorDisplay {
+    text-align:center;
+    display: block;
+    margin : 0 auto;
+    color:red;
+    padding-top:3vh;
+    padding-bottom:1vh;
+    padding-left:0;
+    padding-right:0;
+    clear:both;
+    font-size:25px;
+}

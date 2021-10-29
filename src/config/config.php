@@ -4,6 +4,7 @@ namespace config\config;
 
 // Include paths
 define("PHP_MODULES", getenv("YBC_ROOT")."/src/Modules/");
+define("PHP_TEMPLATES", getenv("YBC_ROOT")."/src/Templates/");
 
 // Database
 define("DB_PROVIDER", "mariadb");

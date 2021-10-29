@@ -24,7 +24,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
     public function getTransactionById(int $id) : ?Transaction {
         $conn = $this::getConnection();
 
-        $statement = "SELECT * FROM Transactions WHERE id = ?";
+        $statement = "SELECT * FROM transactions WHERE id = ?";
         // TODO: Inculde transactions in user; maybe with the help of INNER JOINS?
         //       _outside_ of the repository in a separate controller would
         //       probably be a better idea.
@@ -52,7 +52,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
     public function getTransactions() : array {
         $conn = $this::getConnection();
 
-        $statement = "SELECT * FROM Transactions";
+        $statement = "SELECT * FROM transactions";
         
         $stmt = $conn->prepare($statement);
 
@@ -75,7 +75,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
     public function findTransactionsWithFilter(array $filter_list) : array {
         $conn = $this::getConnection();
 
-        $statement = "SELECT * FROM Transactions";
+        $statement = "SELECT * FROM transactions";
 
         if (count($filter_list) !== 0) {
             $statement .= " WHERE ";
@@ -119,7 +119,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
         $conn = $this::getConnection();
 
         $statement = 
-            "INSERT INTO Transactions (amount, title, description, obligee_id, debtor_id, status)
+            "INSERT INTO transactions (amount, title, description, obligee_id, debtor_id, status)
             VALUES (:amount, :title, :description, :obligee_id, :debtor_id, :status)";
 
         $stmt = $conn->prepare($statement);
@@ -146,7 +146,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
         $conn = $this::getConnection();
 
         $statement = 
-            "UPDATE Transactions
+            "UPDATE transactions
             SET amount = :amount, title = :title, description = :description, obligee_id = :obligee_id,
             debtor_id = :debtor_id, status = :status
             WHERE id = :id";
@@ -176,7 +176,7 @@ class MariaDbTransactionRepository implements ITransactionRepository
         $conn = $this::getConnection();
 
         $statement =
-            "DELETE FROM Transactions
+            "DELETE FROM transactions
             WHERE id = ?";
 
         $stmt = $conn->prepare($statement);
