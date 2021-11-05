@@ -37,3 +37,6 @@ include_once PHP_TEMPLATES . $url;
 ?>
 
 <!-- TODO: Include footer -->
+<footer>
+    <?php include PHP_TEMPLATES . "FooterMenu.html.php";?>
+</footer>
