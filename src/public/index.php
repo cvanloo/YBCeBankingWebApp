@@ -25,14 +25,15 @@ $GLOBALS['dataService'] = new DataService(new MariaDbUserRepository, new MariaDb
 <?php
 
 $url = $_SERVER['REQUEST_URI'];
+$baseURL = explode("?", $url)[0];
 
-if ($url === '/') {
-	$url = '/home';
+if ($baseURL === '/') {
+	$baseURL = '/home';
 }
 
-$url = $url . '.html.php';
+$baseURL = $baseURL . '.html.php';
 
-include_once PHP_TEMPLATES . $url;
+include_once PHP_TEMPLATES . $baseURL;
 
 ?>
 

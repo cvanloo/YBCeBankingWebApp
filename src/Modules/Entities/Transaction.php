@@ -100,6 +100,10 @@ class Transaction {
 	public int $debtor_id;
 	//public User $debtor;
 	public int $status;
+
+	// public function __toString() : string {
+	// 	return $amount + 
+	// }
 }
 
 abstract class TransactionState {

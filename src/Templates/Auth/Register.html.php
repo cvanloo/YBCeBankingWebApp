@@ -9,7 +9,7 @@
 
         if(null !== $user){
             // Save user to session.
-            $_SESSION['user'] = $user;
+            $_SESSION['logged_user'] = base64_encode(serialize($user));
         }
     }
     function  checkRegister() : array {

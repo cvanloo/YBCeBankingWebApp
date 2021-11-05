@@ -1,32 +1,26 @@
 <?php
-if(!isset($_GET['home_mode'])){
-    $_GET['home_mode'] = "earnings";
+if(!isset($_GET['view'])){
+    $_GET['view'] = "earnings";
 }
 
 
 $repo = $GLOBALS['dataService'];
+$user = unserialize(base64_decode($_SESSION['logged_user']));
 
-function get_earnings($user): array{
-    $filter = array('obligee_id=='+$user);
-    #$earnings = $repo->findTransactionsWithFilter($filter);
+function get_earnings(): array {
+    global $repo;
+    global $user;
+    
+    $earnings = $repo->findTransactionsWithFilter(['obligee_id' => $user->id]);
 
-    $earnings = [
-        "key1" => "earning1",
-        "key2" => "earning2",
-        "key3" => "earning3",
-    ];
     return $earnings;
 };
 
-function get_spendings($user): array{
-    $filter = array('debtor_id=='+$user);
-    #$spendings = $repo->findTransactionsWithFilter($filter);
+function get_spendings(): array {
+    global $repo;
+    global $user;
 
-    $spendings = [
-        "key1" => "spending1",
-        "key2" => "spending2",
-        "key3" => "spending3",
-    ];
+    $spendings = $repo->findTransactionsWithFilter(['debtor_id' => $user->id]);
 
     return $spendings;
 };
@@ -41,21 +35,21 @@ function get_spendings($user): array{
 	<body>
 
         <!-- TODO: add function that switchs -->
-        <a href="" onclick="">Earnings</a>
-        <a href="" onclick="">Spendings</a>
+        <a href="?view=earnings" onclick="">Earnings</a>
+        <a href="?view=spendings" onclick="">Spendings</a>
         </br>
         History for this month
 
         <?php
-            if($_GET['home_mode']=="earnings"){
-                $transfer_data = get_earnings($_SESSION['user']);
-            }elseif($_GET['home_mode']=="spendings"){
-                $transfer_data = get_spendings($_SESSION['user']);
+            if($_GET['view']=="earnings") {
+                $transfer_data = get_earnings();
+            }elseif($_GET['view']=="spendings"){
+                $transfer_data = get_spendings();
             }
 
-            foreach($transfer_data as $data){
+            foreach($transfer_data as $data) {
                 echo '<hr style="width:50%;text-align:left;margin-left:0">';
-                echo $data;
+                print_r($data);
             }
         ?>
 

@@ -6,7 +6,7 @@ if(isset($_POST["signInButton"])){
     $message = $result['message'];
 
     if (null !== $user) {
-       $_SESSION['user'] = $user;
+       $_SESSION['logged_user'] = base64_encode(serialize($user));
     }
 }
 
